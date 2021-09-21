@@ -64,6 +64,29 @@ func GetTreeList(c *fiber.Ctx) error {
 	return c.Status(200).JSON(resJSON)
 }
 
+func FindUser(c *fiber.Ctx) error {
+	user := new(models.ManageUser)
+
+	if err := c.BodyParser(user); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", user.Uuid)
+
+	if user.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	// query
+	res, err := controllers.FindUser(user.Username)
+	if err != nil { // err = record not found
+		return c.Status(404).SendString(err.Error())
+	}
+
+	return c.Status(200).SendString(res.Uuid)
+}
+
 func AddUser(c *fiber.Ctx) error {
 	newuser := new(models.ManageUser)
 
@@ -153,4 +176,112 @@ func DeleteUser(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).SendString("user: " + deleteUser.Username + " is deleted")
+}
+
+func FindTree(c *fiber.Ctx) error {
+	tree := new(models.ManageTree)
+
+	if err := c.BodyParser(tree); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", tree.Uuid)
+
+	if tree.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	// query
+	res, err := controllers.FindTree(tree.Owner)
+	if err != nil {
+		return c.Status(404).SendString(err.Error())
+	}
+	var resJSON models.Item
+	for _, v := range res {
+		resJSON.Tree = append(resJSON.Tree, v.TreeName)
+	}
+
+	return c.Status(200).JSON(resJSON)
+}
+
+func AddTree(c *fiber.Ctx) error {
+	newTree := new(models.ManageTree)
+
+	if err := c.BodyParser(newTree); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", newTree.Uuid)
+
+	if newTree.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	tree := models.Tree{TreeName: newTree.TreeName, Owner: newTree.Owner}
+	res := controllers.Insert("trees", &tree)
+	if res.Error != nil {
+		log.Println("insert err:", res.Error.Error())
+		return c.Status(500).SendString(res.Error.Error())
+	} else if res.RowsAffected != 1 {
+		log.Println("RowsAffected:", res.RowsAffected)
+		return c.Status(500).SendString(res.Error.Error())
+	}
+
+	return c.Status(200).SendString("tree: " + newTree.TreeName + " is created")
+}
+
+func UpdateTree(c *fiber.Ctx) error {
+	updateTree := new(models.ManageTree)
+
+	if err := c.BodyParser(updateTree); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", updateTree.Uuid)
+
+	if updateTree.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	tree := models.Tree{Owner: updateTree.Owner}
+	res := controllers.Update("trees", "tree_name", updateTree.TreeName, tree)
+	if res.Error != nil {
+		log.Println("updateUser err:", res.Error.Error())
+		return c.SendStatus(500)
+	} else if res.RowsAffected != 1 {
+		log.Println("RowsAffected:", res.RowsAffected)
+		return c.SendStatus(500)
+	}
+
+	return c.Status(200).SendString("tree: " + updateTree.TreeName + " is updated")
+}
+
+func DeleteTree(c *fiber.Ctx) error {
+	deleteTree := new(models.ManageTree)
+
+	if err := c.BodyParser(deleteTree); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", deleteTree.Uuid)
+
+	if deleteTree.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	var tree models.Tree
+	res := controllers.Delete("trees", "tree_name", deleteTree.TreeName, &tree)
+	if res.Error != nil {
+		log.Println("deleteUser err:", res.Error.Error())
+		return c.Status(500).SendString(res.Error.Error())
+	} else if res.RowsAffected != 1 {
+		log.Println("RowsAffected:", res.RowsAffected)
+		return c.Status(500).SendString(res.Error.Error())
+	}
+
+	return c.Status(200).SendString("tree: " + deleteTree.TreeName + " is deleted")
 }

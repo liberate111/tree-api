@@ -25,3 +25,11 @@ type ManageUser struct {
 	TableName  string `json:"tableName,omitempty"`
 	PrimaryKey string `json:"primaryKey,omitempty"`
 }
+
+type ManageTree struct {
+	Uuid       string `json:"uuid,omitempty"`
+	TreeName   string `json:"treeName,omitempty"`
+	Owner      string `json:"owner,omitempty"`
+	TableName  string `json:"tableName,omitempty"`
+	PrimaryKey string `json:"primaryKey,omitempty"`
+}
