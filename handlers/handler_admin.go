@@ -8,62 +8,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func HealthCheck(c *fiber.Ctx) error {
-	// response struct
-	resp := models.ResponseMessage{Status: 200, Message: "OK"}
-	return c.Status(200).JSON(resp)
-}
-
-func Login(c *fiber.Ctx) error {
-	user := new(models.UserAuth)
-
-	if err := c.BodyParser(user); err != nil {
-		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
-	}
-
-	log.Println("username: ", user.Username)
-	log.Println("password: ", user.Password)
-
-	// query
-	res, err := controllers.FindUser(user.Username)
-	if err != nil { // err = record not found
-		return c.Status(404).SendString(err.Error())
-	}
-
-	err = controllers.ComparePassword(user.Password, []byte(res.Password))
-	if err != nil {
-		return c.Status(404).SendString("invalid username or password")
-	}
-	return c.Status(200).SendString(res.Uuid)
-}
-
-func GetTreeList(c *fiber.Ctx) error {
-	// get tree list form db
-	// t := []string{"tree1", "tree2", "tree3", "tree4"}
-	// tree := models.Item{Tree: t}
-	uuid := new(models.Uuid)
-
-	if err := c.BodyParser(uuid); err != nil {
-		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
-	}
-
-	log.Println("uuid: ", uuid.Uuid)
-
-	// query
-	res, err := controllers.FindTree(uuid.Uuid)
-	if err != nil {
-		return c.Status(404).SendString(err.Error())
-	}
-	var resJSON models.Item
-	for _, v := range res {
-		resJSON.Tree = append(resJSON.Tree, v.TreeName)
-	}
-
-	return c.Status(200).JSON(resJSON)
-}
-
 func FindUser(c *fiber.Ctx) error {
 	user := new(models.ManageUser)
 
@@ -284,4 +228,37 @@ func DeleteTree(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).SendString("tree: " + deleteTree.TreeName + " is deleted")
+}
+
+func Transfer(c *fiber.Ctx) error {
+	newOwner := new(models.ManageTree)
+
+	if err := c.BodyParser(newOwner); err != nil {
+		log.Println("BodyParser err:", err.Error())
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("uuid: ", newOwner.Uuid)
+
+	if newOwner.Uuid != "uuid-9how,hlug-up;" {
+		return c.SendStatus(403)
+	}
+
+	// query
+	resQuery, err := controllers.FindUser(newOwner.Username)
+	if err != nil { // err = record not found
+		return c.Status(404).SendString(err.Error())
+	}
+
+	tree := models.Tree{Owner: resQuery.Uuid}
+	resUpdate := controllers.Update("trees", "tree_name", newOwner.TreeName, tree)
+	if resUpdate.Error != nil {
+		log.Println("updateUser err:", resUpdate.Error.Error())
+		return c.SendStatus(500)
+	} else if resUpdate.RowsAffected != 1 {
+		log.Println("RowsAffected:", resUpdate.RowsAffected)
+		return c.SendStatus(500)
+	}
+
+	return c.Status(200).SendString("tree: " + newOwner.TreeName + " is transfered")
 }

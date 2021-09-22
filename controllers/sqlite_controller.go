@@ -44,7 +44,7 @@ func FindUser(username string) (models.User, error) {
 	var userSqlite models.User
 	res := DB.Con.Table("users").Where("username = ?", username).First(&userSqlite)
 	if res.Error != nil {
-		return userSqlite, res.Error
+		return userSqlite, fmt.Errorf("query user err: %s", res.Error.Error())
 	}
 	if res.RowsAffected == 0 {
 		return userSqlite, fmt.Errorf("user: %s Not Found", username)
@@ -119,11 +119,11 @@ func CreateUserTest() {
 
 	//table trees
 	tree := []models.Tree{
-		{TreeName: "Tree0001", Owner: uuid},
-		{TreeName: "Tree0002", Owner: uuid},
-		{TreeName: "Tree0003", Owner: uuid},
-		{TreeName: "Tree0004", Owner: uuid},
-		{TreeName: "Tree0005", Owner: uuid},
+		{TreeName: "Tree0001", Owner: uuid, Level: 1, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0002", Owner: uuid, Level: 2, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0003", Owner: uuid, Level: 3, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0004", Owner: uuid, Level: 4, TreeState: "wet", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0005", Owner: uuid, Level: 5, TreeState: "grow", StartTime: 1632335714, StopTime: 1632422114},
 		{TreeName: "Tree0006"},
 		{TreeName: "Tree0007"},
 		{TreeName: "Tree0008"},

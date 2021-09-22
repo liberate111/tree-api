@@ -17,6 +17,7 @@ func main() {
 	app.Get("/", handlers.HealthCheck)
 	app.Post("/login", handlers.Login)
 	app.Post("/tree", handlers.GetTreeList)
+	app.Post("/change_password", handlers.ChangePassword)
 
 	// admin manage users
 	app.Post("/getuser", handlers.FindUser)
@@ -29,6 +30,9 @@ func main() {
 	app.Post("/addtree", handlers.AddTree)
 	app.Post("/updatetree", handlers.UpdateTree)
 	app.Post("/deletetree", handlers.DeleteTree)
+
+	// admin transfer tree
+	app.Post("/transfer", handlers.Transfer)
 
 	app.Listen(":3000")
 }

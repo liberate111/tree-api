@@ -7,6 +7,10 @@ type User struct {
 }
 
 type Tree struct {
-	TreeName string `gorm:"primaryKey;autoIncrement:false"`
-	Owner    string
+	TreeName  string `gorm:"primaryKey;autoIncrement:false"`
+	Owner     string
+	Level     int
+	TreeState string
+	StartTime int
+	StopTime  int
 }
