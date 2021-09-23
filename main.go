@@ -14,10 +14,13 @@ func main() {
 	// fiber
 	app := fiber.New()
 
+	// user
 	app.Get("/", handlers.HealthCheck)
 	app.Post("/login", handlers.Login)
-	app.Post("/tree", handlers.GetTreeList)
 	app.Post("/change_password", handlers.ChangePassword)
+
+	// tree
+	app.Post("/tree", handlers.GetTreeList)
 
 	// admin manage users
 	app.Post("/getuser", handlers.FindUser)
