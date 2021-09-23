@@ -1,8 +1,15 @@
 # Tree API
 
 ## Tree API spec
+## Usage
+## Deploy
+
+
 
 ## Usage
+### user
+### tree
+
 
 HTTP Headers
 ```sh
@@ -17,7 +24,27 @@ tree-api/
 ```
 
 ### user
-login
+#### login
+#### change-password
+
+### tree
+#### user get trees
+
+
+### admin
+
+#### manage user
+#### get uuid
+#### add user
+
+### manage tree
+#### add tree
+#### transfer
+
+
+
+
+#### login
 ```sh
 HTTP POST /v1/login
 tree-api/v1/login
@@ -40,7 +67,8 @@ response
 }
 ```
 
-/change-password
+
+#### change-password
 ```sh
 HTTP POST /v1/change-password
 tree-api/v1/change-password
@@ -65,10 +93,13 @@ response
  "message": "success"
 }
 ```
+
+
+
 ### tree
-user get trees
+#### user get trees
 ```sh
-HTTP GET /v1/users/:id/tree
+HTTP POST /v1/users/:id/tree
 tree-api/v1/users/:id/tree
 ```
 request
@@ -99,9 +130,9 @@ response
 ```
 
 ### admin
-manage user
+#### manage user
 
-get uuid
+#### get uuid
 ```sh
 HTTP POST /v1/admin/users
 tree-api/v1/admin/users
@@ -130,7 +161,7 @@ response
 }
 ```
 
-add user
+#### add user
 ```sh
 HTTP POST /v1/admin/users/insert
 tree-api/v1/admin/users/insert
@@ -157,9 +188,9 @@ response
 }
 ```
 
-manage tree
+### manage tree
 
-add tree
+#### add tree
 ```sh
 HTTP POST /v1/admin/trees/insert
 tree-api/v1/admin/trees/insert
@@ -186,7 +217,7 @@ response
 }
 ```
 
-transfer
+#### transfer
 ```sh
 HTTP POST /v1/admin/trees/transfer
 tree-api/v1/admin/trees/transfer
