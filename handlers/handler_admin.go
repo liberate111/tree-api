@@ -13,7 +13,7 @@ func FindUser(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(user); err != nil {
 		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString(err.Error())
 	}
 
 	log.Println("uuid: ", user.Uuid)
@@ -36,7 +36,7 @@ func AddUser(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(newuser); err != nil {
 		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString(err.Error())
 	}
 
 	log.Println("uuid: ", newuser.Uuid)
@@ -154,7 +154,7 @@ func AddTree(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(newTree); err != nil {
 		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString(err.Error())
 	}
 
 	log.Println("uuid: ", newTree.Uuid)
@@ -235,7 +235,7 @@ func Transfer(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(newOwner); err != nil {
 		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString(err.Error())
 	}
 
 	log.Println("uuid: ", newOwner.Uuid)

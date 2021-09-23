@@ -17,12 +17,13 @@ func main() {
 	// user
 	app.Get("/", handlers.HealthCheck)
 	app.Post("/login", handlers.Login)
-	app.Post("/change_password", handlers.ChangePassword)
+	app.Post("/change-password", handlers.ChangePassword)
 
 	// tree
+	// v1
 	app.Post("/tree", handlers.GetTreeList)
 
-	// admin manage users
+	// admin manage user
 	app.Post("/getuser", handlers.FindUser)
 	app.Post("/adduser", handlers.AddUser)
 	app.Post("/updateuser", handlers.UpdateUser)

@@ -16,7 +16,7 @@ func GetTreeList(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(uuid); err != nil {
 		log.Println("BodyParser err:", err.Error())
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString(err.Error())
 	}
 
 	log.Println("uuid: ", uuid.Uuid)
