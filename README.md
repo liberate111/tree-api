@@ -1,15 +1,12 @@
 # Tree API
 
 ## Tree API spec
-## Usage
-## Deploy
+- [Usage](#Usage)
+- [Deploy](#Deploy)
 
 
 
 ## Usage
-### user
-### tree
-
 
 HTTP Headers
 ```sh
@@ -24,25 +21,6 @@ tree-api/
 ```
 
 ### user
-#### login
-#### change-password
-
-### tree
-#### user get trees
-
-
-### admin
-
-#### manage user
-#### get uuid
-#### add user
-
-### manage tree
-#### add tree
-#### transfer
-
-
-
 
 #### login
 ```sh
