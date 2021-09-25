@@ -24,8 +24,8 @@ tree-api/
 
 #### login
 ```sh
-HTTP POST /v1/login
-tree-api/v1/login
+HTTP POST /api/v1/users/login
+tree-api/api/v1/users/login
 ```
 request
 ```sh
@@ -48,8 +48,8 @@ response
 
 #### change-password
 ```sh
-HTTP POST /v1/change-password
-tree-api/v1/change-password
+HTTP POST /api/v1/users/change-password
+tree-api/api/v1/users/change-password
 ```
 request
 ```sh
@@ -77,16 +77,8 @@ response
 ### tree
 #### user get trees
 ```sh
-HTTP POST /v1/users/:id/tree
-tree-api/v1/users/:id/tree
-```
-request
-```sh
-{
-	"username": "user-test",
-	"oldpassword": "old-password",
-	"newpassword" : "new-password"
-}
+HTTP GET /api/v1/users/:id/trees
+tree-api/api/v1/users/:id/trees
 ```
 
 response
@@ -108,12 +100,12 @@ response
 ```
 
 ### admin
-#### manage user
+### manage user
 
 #### get uuid
 ```sh
-HTTP POST /v1/admin/users
-tree-api/v1/admin/users
+HTTP POST /api/v1/admin/users
+tree-api/api/v1/admin/users
 ```
 
 request
@@ -141,8 +133,8 @@ response
 
 #### add user
 ```sh
-HTTP POST /v1/admin/users/insert
-tree-api/v1/admin/users/insert
+HTTP POST /api/v1/admin/users/insert
+tree-api/api/v1/admin/users/insert
 ```
 
 request
@@ -170,8 +162,8 @@ response
 
 #### add tree
 ```sh
-HTTP POST /v1/admin/trees/insert
-tree-api/v1/admin/trees/insert
+HTTP POST /api/v1/admin/trees/insert
+tree-api/api/v1/admin/trees/insert
 ```
 
 request
@@ -197,8 +189,8 @@ response
 
 #### transfer
 ```sh
-HTTP POST /v1/admin/trees/transfer
-tree-api/v1/admin/trees/transfer
+HTTP POST /api/v1/admin/trees/transfer
+tree-api/api/v1/admin/trees/transfer
 ```
 
 request

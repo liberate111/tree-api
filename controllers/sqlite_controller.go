@@ -47,7 +47,7 @@ func FindUser(username string) (models.User, error) {
 		return userSqlite, fmt.Errorf("query user err: %s", res.Error.Error())
 	}
 	if res.RowsAffected == 0 {
-		return userSqlite, fmt.Errorf("user: %s Not Found", username)
+		return userSqlite, fmt.Errorf("user: %s not found", username)
 	}
 	return userSqlite, nil
 }
@@ -59,7 +59,7 @@ func FindTree(uuid string) ([]models.Tree, error) {
 		return trees, res.Error
 	}
 	if res.RowsAffected == 0 {
-		return trees, fmt.Errorf("tree Not Found")
+		return trees, fmt.Errorf("tree not found")
 	}
 	return trees, nil
 }
@@ -119,11 +119,11 @@ func CreateUserTest() {
 
 	//table trees
 	tree := []models.Tree{
-		{TreeName: "Tree0001", Owner: uuid, Level: 1, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0002", Owner: uuid, Level: 2, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0003", Owner: uuid, Level: 3, TreeState: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0004", Owner: uuid, Level: 4, TreeState: "wet", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0005", Owner: uuid, Level: 5, TreeState: "grow", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0001", Owner: uuid, Level: 1, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0002", Owner: uuid, Level: 2, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0003", Owner: uuid, Level: 3, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0004", Owner: uuid, Level: 4, State: "wet", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0005", Owner: uuid, Level: 5, State: "grow", StartTime: 1632335714, StopTime: 1632422114},
 		{TreeName: "Tree0006"},
 		{TreeName: "Tree0007"},
 		{TreeName: "Tree0008"},

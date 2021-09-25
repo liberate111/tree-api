@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"log"
+	"fmt"
 	"tree-web-server/controllers"
 	"tree-web-server/models"
 
@@ -16,61 +16,67 @@ func HealthCheck(c *fiber.Ctx) error {
 
 func Login(c *fiber.Ctx) error {
 	user := new(models.UserAuth)
+	var resJSON models.ResponseMessage
 
 	if err := c.BodyParser(user); err != nil {
-		log.Println("BodyParser err:", err.Error())
-		return c.Status(400).SendString(err.Error())
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
 	}
-
-	log.Println("username: ", user.Username)
-	log.Println("password: ", user.Password)
 
 	// query
 	res, err := controllers.FindUser(user.Username)
 	if err != nil {
-		return c.Status(400).SendString(err.Error())
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
 	}
 
 	err = controllers.ComparePassword(user.Password, []byte(res.Password))
 	if err != nil {
-		return c.Status(400).SendString("invalid username or password")
+		resJSON = models.ResponseMessage{Status: 400, Message: "invalid username or password"}
+		return c.Status(400).JSON(resJSON)
 	}
-	return c.Status(200).SendString(res.Uuid)
+	resJSON = models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Uuid: res.Uuid}}
+	return c.Status(200).JSON(resJSON)
 }
 
 func ChangePassword(c *fiber.Ctx) error {
 	user := new(models.ChangePassword)
+	var resJSON models.ResponseMessage
 
 	if err := c.BodyParser(user); err != nil {
-		log.Println("BodyParser err:", err.Error())
-		return c.Status(400).SendString(err.Error())
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
 	}
 
 	// query
 	resQuery, err := controllers.FindUser(user.Username)
 	if err != nil {
-		return c.Status(400).SendString(err.Error())
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
 	}
 
 	err = controllers.ComparePassword(user.OldPassword, []byte(resQuery.Password))
 	if err != nil {
-		return c.Status(400).SendString("invalid username or password")
+		resJSON = models.ResponseMessage{Status: 400, Message: "invalid username or password"}
+		return c.Status(400).JSON(resJSON)
 	}
 
 	newPassword, err := controllers.HashPassword(user.NewPassword)
 	if err != nil {
-		return c.Status(500).SendString(err.Error())
+		resJSON = models.ResponseMessage{Status: 500, Message: err.Error()}
+		return c.Status(500).JSON(resJSON)
 	}
 
 	updateUser := models.User{Password: string(newPassword)}
 	resUpdate := controllers.Update("users", "username", user.Username, updateUser)
 	if resUpdate.Error != nil {
-		log.Println("updateUser err:", resUpdate.Error.Error())
-		return c.SendStatus(500)
+		resJSON = models.ResponseMessage{Status: 500, Message: resUpdate.Error.Error()}
+		return c.Status(500).JSON(resJSON)
 	} else if resUpdate.RowsAffected != 1 {
-		log.Println("RowsAffected:", resUpdate.RowsAffected)
-		return c.SendStatus(500)
+		resJSON = models.ResponseMessage{Status: 500, Message: fmt.Sprintf("RowsAffected: %d", resUpdate.RowsAffected)}
+		return c.Status(500).JSON(resJSON)
 	}
 
-	return c.Status(200).SendString("user: " + updateUser.Username + " is updated")
+	resJSON = models.ResponseMessage{Status: 200, Message: "success"}
+	return c.Status(200).JSON(resJSON)
 }

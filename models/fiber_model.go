@@ -1,8 +1,14 @@
 package models
 
 type ResponseMessage struct {
-	Status  int
-	Message string
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Data    *Data  `json:"data,omitempty"`
+}
+
+type Data struct {
+	Uuid string   `json:"uuid,omitempty"`
+	Tree []string `json:"tree,omitempty"`
 }
 
 type UserAuth struct {

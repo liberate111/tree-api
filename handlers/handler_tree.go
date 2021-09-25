@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"tree-web-server/controllers"
 	"tree-web-server/models"
 
@@ -10,26 +9,28 @@ import (
 
 func GetTreeList(c *fiber.Ctx) error {
 	// get tree list form db
-	// t := []string{"tree1", "tree2", "tree3", "tree4"}
-	// tree := models.Item{Tree: t}
-	uuid := new(models.Uuid)
-
-	if err := c.BodyParser(uuid); err != nil {
-		log.Println("BodyParser err:", err.Error())
-		return c.Status(400).SendString(err.Error())
-	}
-
-	log.Println("uuid: ", uuid.Uuid)
+	uuid := c.Params("id")
 
 	// query
-	res, err := controllers.FindTree(uuid.Uuid)
+	res, err := controllers.FindTree(uuid)
 	if err != nil {
-		return c.Status(404).SendString(err.Error())
+		resJSON := models.ResponseMessage{
+			Status:  404,
+			Message: err.Error(),
+		}
+		return c.Status(404).JSON(resJSON)
 	}
-	var resJSON models.Item
+	var treeList []string
 	for _, v := range res {
-		resJSON.Tree = append(resJSON.Tree, v.TreeName)
+		treeList = append(treeList, v.TreeName)
 	}
 
+	resJSON := models.ResponseMessage{
+		Status:  200,
+		Message: "success",
+		Data: &models.Data{
+			Tree: treeList,
+		},
+	}
 	return c.Status(200).JSON(resJSON)
 }
