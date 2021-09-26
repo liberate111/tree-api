@@ -21,10 +21,13 @@ func main() {
 	v1 := api.Group("/v1")   // /api/v1
 
 	// user
-	users := v1.Group("/users")                             // /api/v1/users
-	users.Post("/login", handlers.Login)                    // /api/v1/users/login
-	users.Post("/change-password", handlers.ChangePassword) // /api/v1/users/change-password
-	users.Get("/:id/trees", handlers.GetTreeList)           // /api/v1/users/:id/trees
+	users := v1.Group("/users")                                       // /api/v1/users
+	users.Post("/login", handlers.Login)                              // /api/v1/users/login
+	users.Post("/change-password", handlers.ChangePassword)           // /api/v1/users/change-password
+	users.Get("/:id/trees", handlers.GetTreeList)                     // /api/v1/users/:id/trees
+	users.Get("/:id/trees/:treeId/state", handlers.GetTreeState)      // /api/v1/users/:id/trees/:treeId/state
+	users.Put("/:id/trees/:treeId/state", handlers.UpdateTreeState)   // /api/v1/users/:id/trees/:treeId/state
+	users.Put("/:id/trees/:treeId/levelup", handlers.UpdateTreeLevel) // /api/v1/users/:id/trees/:treeId/levelup?level=1
 
 	// admin
 	admin := v1.Group("/admin") // /api/v1/admin

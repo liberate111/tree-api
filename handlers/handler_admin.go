@@ -117,7 +117,7 @@ func FindTree(c *fiber.Ctx) error {
 	}
 
 	// query
-	res, err := controllers.FindTree(tree.Owner)
+	res, err := controllers.FindTree("owner", tree.Owner)
 	if err != nil {
 		return c.Status(404).SendString(err.Error())
 	}

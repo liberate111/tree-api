@@ -52,9 +52,10 @@ func FindUser(username string) (models.User, error) {
 	return userSqlite, nil
 }
 
-func FindTree(uuid string) ([]models.Tree, error) {
+func FindTree(field string, query string) ([]models.Tree, error) {
 	var trees []models.Tree
-	res := DB.Con.Table("trees").Where("owner = ?", uuid).Find(&trees)
+	con := fmt.Sprintf("%s = ?", field)
+	res := DB.Con.Table("trees").Where(con, query).Find(&trees)
 	if res.Error != nil {
 		return trees, res.Error
 	}
