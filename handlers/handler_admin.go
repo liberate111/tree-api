@@ -9,6 +9,37 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func FindAllUser(c *fiber.Ctx) error {
+	user := new(models.ManageUser)
+	var resJSON models.ResponseMessage
+	if err := c.BodyParser(user); err != nil {
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
+	}
+
+	if user.Uuid != "uuid-9how,hlug-up;" {
+		resJSON = models.ResponseMessage{Status: 403, Message: "Forbidden"}
+		return c.Status(403).JSON(resJSON)
+	}
+
+	// query
+	res, err := controllers.FindAllUser()
+	if err != nil {
+		resJSON = models.ResponseMessage{Status: 404, Message: err.Error()}
+		return c.Status(404).JSON(resJSON)
+	}
+	var userList []models.User
+	for _, v := range res {
+		var user models.User
+		user.Username = v.Username
+		user.Uuid = v.Uuid
+		userList = append(userList, user)
+	}
+
+	resJSON = models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Users: userList}}
+	return c.Status(200).JSON(resJSON)
+}
+
 func FindUser(c *fiber.Ctx) error {
 	user := new(models.ManageUser)
 
@@ -22,7 +53,7 @@ func FindUser(c *fiber.Ctx) error {
 
 	// query
 	res, err := controllers.FindUser(user.Username)
-	if err != nil { // err = record not found
+	if err != nil {
 		return c.Status(404).SendString(err.Error())
 	}
 
@@ -103,6 +134,45 @@ func DeleteUser(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).SendString("user: " + deleteUser.Username + " is deleted")
+}
+
+func FindAllTree(c *fiber.Ctx) error {
+	user := new(models.ManageTree)
+	var resJSON models.ResponseMessage
+	if err := c.BodyParser(user); err != nil {
+		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
+		return c.Status(400).JSON(resJSON)
+	}
+
+	if user.Uuid != "uuid-9how,hlug-up;" {
+		resJSON = models.ResponseMessage{Status: 403, Message: "Forbidden"}
+		return c.Status(403).JSON(resJSON)
+	}
+
+	// query
+	res, err := controllers.FindAllTree()
+	if err != nil {
+		resJSON = models.ResponseMessage{
+			Status:  404,
+			Message: err.Error(),
+		}
+		return c.Status(404).JSON(resJSON)
+	}
+
+	var treeList []models.Tree
+	for _, v := range res {
+		var tree models.Tree
+		tree.TreeName = v.TreeName
+		tree.Owner = v.Owner
+		tree.Level = v.Level
+		tree.State = v.State
+		tree.StartTime = v.StartTime
+		tree.StopTime = v.StopTime
+		treeList = append(treeList, tree)
+	}
+
+	resJSON = models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Trees: treeList}}
+	return c.Status(200).JSON(resJSON)
 }
 
 func FindTree(c *fiber.Ctx) error {

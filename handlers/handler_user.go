@@ -26,8 +26,8 @@ func Login(c *fiber.Ctx) error {
 	// query
 	res, err := controllers.FindUser(user.Username)
 	if err != nil {
-		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
-		return c.Status(400).JSON(resJSON)
+		resJSON = models.ResponseMessage{Status: 404, Message: err.Error()}
+		return c.Status(404).JSON(resJSON)
 	}
 
 	err = controllers.ComparePassword(user.Password, []byte(res.Password))
@@ -51,8 +51,8 @@ func ChangePassword(c *fiber.Ctx) error {
 	// query
 	resQuery, err := controllers.FindUser(user.Username)
 	if err != nil {
-		resJSON = models.ResponseMessage{Status: 400, Message: err.Error()}
-		return c.Status(400).JSON(resJSON)
+		resJSON = models.ResponseMessage{Status: 404, Message: err.Error()}
+		return c.Status(404).JSON(resJSON)
 	}
 
 	err = controllers.ComparePassword(user.OldPassword, []byte(resQuery.Password))

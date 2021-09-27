@@ -64,7 +64,7 @@ func GetTreeState(c *fiber.Ctx) error {
 	}
 	// phase spawn tree
 	if tree.StartTime == 0 && tree.StopTime == 0 {
-		resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: tree.Level, State: tree.State, StartTime: tree.StartTime, StopTime: tree.StopTime}}
+		resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: &tree.Level, State: tree.State, StartTime: &tree.StartTime, StopTime: &tree.StopTime}}
 		return c.Status(200).JSON(resJSON)
 	}
 	if int(time.Now().UTC().Unix()) > tree.StopTime {
@@ -78,7 +78,7 @@ func GetTreeState(c *fiber.Ctx) error {
 			resJSON := models.ResponseMessage{Status: 400, Message: fmt.Sprintf("RowsAffected: %d", res.RowsAffected)}
 			return c.Status(400).JSON(resJSON)
 		}
-		resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: tree.Level, State: tree.State, StartTime: tree.StartTime, StopTime: tree.StopTime}}
+		resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: &tree.Level, State: tree.State, StartTime: &tree.StartTime, StopTime: &tree.StopTime}}
 		return c.Status(200).JSON(resJSON)
 	}
 	resJSON := models.ResponseMessage{Status: 200, Message: "reject"}
@@ -113,8 +113,8 @@ func UpdateTreeState(c *fiber.Ctx) error {
 	// phase watering
 	tree.State = "wet"
 	tree.StartTime = int(time.Now().UTC().Unix())
-	// tree.StopTime = tree.StartTime + (24 * 60 * 60) // add 1 day
-	tree.StopTime = tree.StartTime + (60) // add 1 min
+	tree.StopTime = tree.StartTime + (24 * 60 * 60) // add 1 day
+	// tree.StopTime = tree.StartTime + (60) // add 1 min
 
 	resUpdate := controllers.Update("trees", "tree_name", tree.TreeName, tree)
 	if resUpdate.Error != nil {
@@ -124,7 +124,7 @@ func UpdateTreeState(c *fiber.Ctx) error {
 		resJSON := models.ResponseMessage{Status: 400, Message: fmt.Sprintf("RowsAffected: %d", resUpdate.RowsAffected)}
 		return c.Status(400).JSON(resJSON)
 	}
-	resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: tree.Level, State: tree.State, StartTime: tree.StartTime, StopTime: tree.StopTime}}
+	resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: &tree.Level, State: tree.State, StartTime: &tree.StartTime, StopTime: &tree.StopTime}}
 	return c.Status(200).JSON(resJSON)
 }
 
@@ -180,6 +180,6 @@ func UpdateTreeLevel(c *fiber.Ctx) error {
 		resJSON := models.ResponseMessage{Status: 400, Message: fmt.Sprintf("RowsAffected: %d", resUpdate.RowsAffected)}
 		return c.Status(400).JSON(resJSON)
 	}
-	resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: tree.Level, State: tree.State, StartTime: tree.StartTime, StopTime: tree.StopTime}}
+	resJSON := models.ResponseMessage{Status: 200, Message: "success", Data: &models.Data{Level: &tree.Level, State: tree.State, StartTime: &tree.StartTime, StopTime: &tree.StopTime}}
 	return c.Status(200).JSON(resJSON)
 }

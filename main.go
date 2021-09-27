@@ -30,7 +30,9 @@ func main() {
 	users.Put("/:id/trees/:treeId/levelup", handlers.UpdateTreeLevel) // /api/v1/users/:id/trees/:treeId/levelup?level=1
 
 	// admin
-	admin := v1.Group("/admin") // /api/v1/admin
+	admin := v1.Group("/admin")                    // /api/v1/admin
+	admin.Post("/users/all", handlers.FindAllUser) // /api/v1/admin/users/all
+	admin.Post("/trees/all", handlers.FindAllTree) // /api/v1/admin/trees/all
 
 	// admin manage user
 	admin.Post("/users", handlers.FindUser)          // /api/v1/admin/users

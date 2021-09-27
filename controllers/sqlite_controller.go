@@ -40,6 +40,30 @@ func AutoMigrate(db *gorm.DB) error {
 	return nil
 }
 
+func FindAllUser() ([]models.User, error) {
+	var userSqlite []models.User
+	res := DB.Con.Table("users").Find(&userSqlite)
+	if res.Error != nil {
+		return userSqlite, fmt.Errorf(res.Error.Error())
+	}
+	if res.RowsAffected == 0 {
+		return userSqlite, fmt.Errorf("data not found")
+	}
+	return userSqlite, nil
+}
+
+func FindAllTree() ([]models.Tree, error) {
+	var trees []models.Tree
+	res := DB.Con.Table("trees").Find(&trees)
+	if res.Error != nil {
+		return trees, res.Error
+	}
+	if res.RowsAffected == 0 {
+		return trees, fmt.Errorf("data not found")
+	}
+	return trees, nil
+}
+
 func FindUser(username string) (models.User, error) {
 	var userSqlite models.User
 	res := DB.Con.Table("users").Where("username = ?", username).First(&userSqlite)

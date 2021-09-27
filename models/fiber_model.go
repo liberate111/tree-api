@@ -9,12 +9,14 @@ type ResponseMessage struct {
 type Data struct {
 	Uuid      string   `json:"uuid,omitempty"`
 	Tree      []string `json:"tree,omitempty"`
+	Users     []User   `json:"users,omitempty"`
+	Trees     []Tree   `json:"trees,omitempty"`
 	TreeName  string   `json:"treeName,omitempty"`
 	Owner     string   `json:"owner,omitempty"`
-	Level     int      `json:"level"`
+	Level     *int     `json:"level,omitempty"`
 	State     string   `json:"state,omitempty"`
-	StartTime int      `json:"startTime"`
-	StopTime  int      `json:"stopTime"`
+	StartTime *int     `json:"startTime,omitempty"`
+	StopTime  *int     `json:"stopTime,omitempty"`
 }
 
 type UserAuth struct {
