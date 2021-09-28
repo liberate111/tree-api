@@ -108,13 +108,13 @@ func Delete(tableName string, fieldPrimaryKey string, primaryKey string, data in
 
 func ConnectDB() {
 	var err error
-	DB, err = ConnectSqlite("tree.db")
+	DB, err = ConnectSqlite("tree-wal.db")
 	if err != nil {
 		log.Panicln("connect to sqlite err:", err.Error())
 	}
 
 	CreateUserTest()
-	CreateUserAdmin()
+	// CreateUserAdmin()
 }
 
 func CreateUserTest() {
@@ -135,20 +135,25 @@ func CreateUserTest() {
 	}
 
 	// test query
-	userTest, err := FindUser("moo")
-	if err != nil {
-		log.Println("query err:", res.Error.Error())
-	}
-	uuid := userTest.Uuid
-	log.Println("uuid:", uuid)
+	// userTest, err := FindUser("moo")
+	// if err != nil {
+	// 	log.Println("query err:", res.Error.Error())
+	// }
+	// uuid := userTest.Uuid
+	// log.Println("uuid:", uuid)
 
 	//table trees
 	tree := []models.Tree{
-		{TreeName: "Tree0001", Owner: uuid, Level: 1, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0002", Owner: uuid, Level: 2, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0003", Owner: uuid, Level: 3, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0004", Owner: uuid, Level: 4, State: "wet", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0005", Owner: uuid, Level: 5, State: "grow", StartTime: 1632335714, StopTime: 1632422114},
+		// {TreeName: "Tree0001", Owner: uuid, Level: 1, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		// {TreeName: "Tree0002", Owner: uuid, Level: 2, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		// {TreeName: "Tree0003", Owner: uuid, Level: 3, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+		// {TreeName: "Tree0004", Owner: uuid, Level: 4, State: "wet", StartTime: 1632335714, StopTime: 1632422114},
+		// {TreeName: "Tree0005", Owner: uuid, Level: 5, State: "grow", StartTime: 1632335714, StopTime: 1632422114},
+		{TreeName: "Tree0001"},
+		{TreeName: "Tree0002"},
+		{TreeName: "Tree0003"},
+		{TreeName: "Tree0004"},
+		{TreeName: "Tree0005"},
 		{TreeName: "Tree0006"},
 		{TreeName: "Tree0007"},
 		{TreeName: "Tree0008"},
