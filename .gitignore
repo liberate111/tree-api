@@ -15,8 +15,8 @@
 # vendor/
 
 # DB
-tree.db 
-tree-*
+tree.db
+tree-wel.db-*
 
 # note
 note*
