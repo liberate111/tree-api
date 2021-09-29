@@ -112,76 +112,74 @@ func ConnectDB() {
 	if err != nil {
 		log.Panicln("connect to sqlite err:", err.Error())
 	}
-
-	CreateUserTest()
-	// CreateUserAdmin()
+	// CreateUserTest()
 }
 
-func CreateUserTest() {
-	// for test
-	password, err := HashPassword("password")
-	if err != nil {
-		log.Println(err)
-	}
+// func CreateUserTest() {
+// 	// for test
+// 	password, err := HashPassword("password")
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
 
-	// table users
-	// test insert
-	user := models.User{Username: "moo", Password: string(password), Uuid: GenUUID()}
-	res := Insert("users", &user)
-	if res.Error != nil {
-		log.Println("insert err:", res.Error.Error())
-	} else if res.RowsAffected != 1 {
-		log.Println("RowsAffected:", res.RowsAffected)
-	}
+// 	// table users
+// 	// test insert
+// 	user := models.User{Username: "moo", Password: string(password), Uuid: GenUUID()}
+// 	res := Insert("users", &user)
+// 	if res.Error != nil {
+// 		log.Println("insert err:", res.Error.Error())
+// 	} else if res.RowsAffected != 1 {
+// 		log.Println("RowsAffected:", res.RowsAffected)
+// 	}
 
-	// test query
-	// userTest, err := FindUser("moo")
-	// if err != nil {
-	// 	log.Println("query err:", res.Error.Error())
-	// }
-	// uuid := userTest.Uuid
-	// log.Println("uuid:", uuid)
+// 	// test query
+// 	// userTest, err := FindUser("moo")
+// 	// if err != nil {
+// 	// 	log.Println("query err:", res.Error.Error())
+// 	// }
+// 	// uuid := userTest.Uuid
+// 	// log.Println("uuid:", uuid)
 
-	//table trees
-	tree := []models.Tree{
-		// {TreeName: "Tree0001", Owner: uuid, Level: 1, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		// {TreeName: "Tree0002", Owner: uuid, Level: 2, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		// {TreeName: "Tree0003", Owner: uuid, Level: 3, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
-		// {TreeName: "Tree0004", Owner: uuid, Level: 4, State: "wet", StartTime: 1632335714, StopTime: 1632422114},
-		// {TreeName: "Tree0005", Owner: uuid, Level: 5, State: "grow", StartTime: 1632335714, StopTime: 1632422114},
-		{TreeName: "Tree0001"},
-		{TreeName: "Tree0002"},
-		{TreeName: "Tree0003"},
-		{TreeName: "Tree0004"},
-		{TreeName: "Tree0005"},
-		{TreeName: "Tree0006"},
-		{TreeName: "Tree0007"},
-		{TreeName: "Tree0008"},
-		{TreeName: "Tree0009"},
-		{TreeName: "Tree0010"},
-	}
+// 	//table trees
+// 	tree := []models.Tree{
+// 		// {TreeName: "Tree0001", Owner: uuid, Level: 1, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+// 		// {TreeName: "Tree0002", Owner: uuid, Level: 2, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+// 		// {TreeName: "Tree0003", Owner: uuid, Level: 3, State: "dry", StartTime: 1632335714, StopTime: 1632422114},
+// 		// {TreeName: "Tree0004", Owner: uuid, Level: 4, State: "wet", StartTime: 1632335714, StopTime: 1632422114},
+// 		// {TreeName: "Tree0005", Owner: uuid, Level: 5, State: "grow", StartTime: 1632335714, StopTime: 1632422114},
+// 		{TreeName: "Tree0001"},
+// 		{TreeName: "Tree0002"},
+// 		{TreeName: "Tree0003"},
+// 		{TreeName: "Tree0004"},
+// 		{TreeName: "Tree0005"},
+// 		{TreeName: "Tree0006"},
+// 		{TreeName: "Tree0007"},
+// 		{TreeName: "Tree0008"},
+// 		{TreeName: "Tree0009"},
+// 		{TreeName: "Tree0010"},
+// 	}
 
-	for _, v := range tree {
-		res := Insert("trees", &v)
-		if res.Error != nil {
-			log.Println("insert err:", res.Error.Error())
-		} else if res.RowsAffected != 1 {
-			log.Println("RowsAffected:", res.RowsAffected)
-		}
-	}
-}
+// 	for _, v := range tree {
+// 		res := Insert("trees", &v)
+// 		if res.Error != nil {
+// 			log.Println("insert err:", res.Error.Error())
+// 		} else if res.RowsAffected != 1 {
+// 			log.Println("RowsAffected:", res.RowsAffected)
+// 		}
+// 	}
+// }
 
-func CreateUserAdmin() {
-	password, err := HashPassword("9how,hlug-up;") // ต้นไม้สีเขียว
-	if err != nil {
-		log.Println(err)
-	}
+// func CreateUserAdmin() {
+// 	password, err := HashPassword("9how,hlug-up;") // ต้นไม้สีเขียว
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
 
-	user := models.User{Username: "admin", Password: string(password), Uuid: "uuid-9how,hlug-up;"}
-	res := Insert("users", &user)
-	if res.Error != nil {
-		log.Println("insert err:", res.Error.Error())
-	} else if res.RowsAffected != 1 {
-		log.Println("RowsAffected:", res.RowsAffected)
-	}
-}
+// 	user := models.User{Username: "admin", Password: string(password), Uuid: "uuid-9how,hlug-up;"}
+// 	res := Insert("users", &user)
+// 	if res.Error != nil {
+// 		log.Println("insert err:", res.Error.Error())
+// 	} else if res.RowsAffected != 1 {
+// 		log.Println("RowsAffected:", res.RowsAffected)
+// 	}
+// }

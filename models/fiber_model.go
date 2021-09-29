@@ -53,4 +53,8 @@ type ManageTree struct {
 	Username   string `json:"username,omitempty"`
 	TableName  string `json:"tableName,omitempty"`
 	PrimaryKey string `json:"primaryKey,omitempty"`
+	Level      int    `json:"level,omitempty"`
+	State      string `json:"state,omitempty"`
+	StartTime  int    `json:"startTime,omitempty"`
+	StopTime   int    `json:"stopTime,omitempty"`
 }
